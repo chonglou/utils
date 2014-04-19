@@ -40,7 +40,7 @@ module Brahma::Utils
 
     def create(name)
       if @path.nil?
-        Brahma::Syslog.new name
+        Brahma::Utils::Syslog.new name
       else
         logger = ::Logger.new("#{@path}/#{name}.log", 'daily')
         logger.level = ::Logger::DEBUG

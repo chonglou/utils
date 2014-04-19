@@ -2,7 +2,7 @@ require_relative '_store'
 require_relative '../utils/redis'
 
 module Brahma::Config
-  class Mysql < Storage
+  class Redis < Storage
     def load
       if ENVIRONMENTS.include?(env)
         cfg = read.fetch(env)
@@ -17,13 +17,13 @@ module Brahma::Config
     def setup!
       p_s '配置REDIS'
       redis = {}
-      redis[:host]=ask('主机： ') { |q| q.default='localhost' }.to_s
-      redis[:port]=ask('端口： ', Integer) do |q|
+      redis['host']=ask('主机： ') { |q| q.default='localhost' }.to_s
+      redis['port']=ask('端口： ', Integer) do |q|
         q.default=6379
         q.in = 1..65536
       end
-      redis[:db]=ask('数据库名： ') { |q| q.default='brahma' }.to_s
-      redis[:pool] = ask('连接池: ', Integer) do |q|
+      redis['db']=ask('数据库名： ') { |q| q.default='brahma' }.to_s
+      redis['pool'] = ask('连接池: ', Integer) do |q|
         q.default=4
         q.in=4...20
       end
@@ -32,8 +32,9 @@ module Brahma::Config
       data = {}
       ENVIRONMENTS.each do |env|
         r = redis.clone
-        r[:db] = "#{redis.fetch :db}_#{env[0]}"
-        Brahma::Utils::Redis::pool(r).ping
+        r['db'] = "#{redis.fetch 'db'}_#{env[0]}"
+        conn = {host:r.fetch('host'), port:r.fetch('port'), db:r.fetch('db')}
+        Brahma::Utils::Redis::pool(conn).ping
         data[env] = r
       end
 

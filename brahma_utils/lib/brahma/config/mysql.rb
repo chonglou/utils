@@ -3,7 +3,7 @@ require_relative '../utils/database'
 
 module Brahma::Config
   class Mysql < Storage
-    def load
+    def load(env)
       if ENVIRONMENTS.include?(env)
         cfg = read.fetch(env)
         {
@@ -38,8 +38,15 @@ module Brahma::Config
       ENVIRONMENTS.each do |env|
         m = mysql.clone
         m['database'] = "#{m.fetch 'database'}_#{env[0]}"
-        Brahma::Utils::Database.create m
-        Brahma::Utils::Database.connect m
+        conn = {
+            host: m.fetch('host'),
+            port:m.fetch('port'),
+            username:m.fetch('username'),
+            password:m.fetch('password'),
+            database:m.fetch('database')
+        }
+        Brahma::Utils::Database.create conn
+        Brahma::Utils::Database.connect conn
         m['adapter']='mysql2'
         m['encoding']='utf8'
         m['timeout']=5000

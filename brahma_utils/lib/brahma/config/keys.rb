@@ -1,5 +1,6 @@
 require_relative '_store'
 require_relative '../utils/string_helper'
+require_relative '../utils/encryptor'
 
 module Brahma::Config
   class Keys < Storage

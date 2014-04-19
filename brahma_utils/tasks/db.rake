@@ -8,7 +8,8 @@ namespace :brahma do
       count = args[:count].to_i
       c = Brahma::Config::Mysql.new "#{Rails.root}/config/database.yml"
       c.p_s '开始备份数据库'
-      mysql = c.load
+      mysql = c.load Rails.env
+
       name = "#{path}/#{mysql[:database]}-#{Time.now.strftime '%Y%m%d%H%M%S.sql.gz'}"
       c.p_s "备份到数据库[#{name}]"
       value= `mysqldump -h #{mysql[:host]} -P #{mysql[:port]} -u #{mysql[:username]} -p#{mysql[:password]} --opt #{mysql[:database]} | gzip > #{name}`
