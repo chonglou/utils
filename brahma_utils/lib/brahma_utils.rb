@@ -1,4 +1,4 @@
-require "brahma_utils/version"
+require 'brahma_utils/version'
 
 module BrahmaUtils
   # Your code goes here...
