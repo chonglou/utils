@@ -1,21 +1,24 @@
 namespace :brahma do
   namespace :setup do
-    desc 'MYSQL配置'
-    task :mysql do
+    desc 'MYSQL配置[路径]'
+    task :mysql, [:path] do |_, args|
+      args.with_defaults(path: 'config/database.yml')
       require 'brahma/config/mysql'
-      Brahma::Config::Mysql.new("#{Rails.root}/config/database.yml").setup!
+      Brahma::Config::Mysql.new(args[:path]).setup!
     end
 
     desc 'REDIS配置'
-    task :redis do
+    task :redis, [:path] do |_, args|
+      args.with_defaults(path: 'config/redis.yml')
       require 'brahma/config/redis'
-      Brahma::Config::Redis.new("#{Rails.root}/config/redis.yml").setup!
+      Brahma::Config::Redis.new(args[:path]).setup!
     end
 
     desc 'KEY生成'
-    task :keys do
+    task :keys, [:path] do |_, args|
+      args.with_defaults(path: 'config/keys.yml')
       require 'brahma/config/keys'
-      Brahma::Config::Keys.new("#{Rails.root}/config/keys.yml").setup!
+      Brahma::Config::Keys.new(args[:path]).setup!
     end
   end
 end
