@@ -2,7 +2,7 @@ require 'singleton'
 require 'fileutils'
 require 'logger'
 
-module Brahma
+module Brahma::Utils
   class Syslog
     def initialize(name)
       require 'syslog/logger'

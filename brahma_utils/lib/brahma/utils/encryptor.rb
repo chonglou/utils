@@ -1,7 +1,7 @@
 require 'openssl'
 require_relative 'string_helper'
 
-module Brahma
+module Brahma::Utols
   class Encryptor
     CIPHER = -> { OpenSSL::Cipher::AES256.new(:CBC) }
 

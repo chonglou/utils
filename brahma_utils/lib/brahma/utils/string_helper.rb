@@ -2,7 +2,7 @@ require 'securerandom'
 require 'digest'
 require 'base64'
 
-module Brahma
+module Brahma::Utils
   module StringHelper
     CHARS=('a'..'z').to_a + ('0'..'9').to_a
     module_function

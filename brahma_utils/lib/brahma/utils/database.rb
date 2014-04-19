@@ -1,9 +1,9 @@
 require 'sequel'
 require_relative 'logger'
 
-module Brahma
+module Brahma::Utils
   module Database
-    LOGGER=Brahma::Logger.instance.create 'database'
+    LOGGER=Logger.instance.create 'database'
 
     module_function
 

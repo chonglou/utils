@@ -1,7 +1,7 @@
 require 'redis'
 require 'connection_pool'
 
-module Brahma
+module Brahma::Utils
   module Redis
     module_function
 

@@ -1,5 +1,5 @@
 require 'date'
-module Brahma
+module Brahma::Utils
   module TimeHelper
     module_function
 
