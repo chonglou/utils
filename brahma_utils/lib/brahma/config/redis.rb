@@ -3,7 +3,7 @@ require_relative '../utils/redis'
 
 module Brahma::Config
   class Redis < Storage
-    def load
+    def load(env)
       if ENVIRONMENTS.include?(env)
         cfg = read.fetch(env)
         {
