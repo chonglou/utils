@@ -14,7 +14,7 @@ module Brahma::Utils
     end
 
     def rand_s!(len)
-      `pwgen -A -s #{len} 1`.chomp
+      `pwgen -s #{len} 1`.chomp
     end
 
     def uuid
