@@ -1,14 +1,14 @@
 namespace :brahma do
   namespace :db do
-    desc '备份数据库[路径,次数]'
-    task :backup, [:path, :count] do |_, args|
+    desc '备份数据库[路径,次数,环境]'
+    task :backup, [:path, :count, :env] do |_, args|
       require 'brahma/config/mysql'
-      args.with_defaults(path: "#{Rails.root}/tmp", count: 7)
+      args.with_defaults(path: 'tmp', count: 7, env: 'production')
       path = args[:path]
       count = args[:count].to_i
-      c = Brahma::Config::Mysql.new "#{Rails.root}/config/database.yml"
+      c = Brahma::Config::Mysql.new 'database.yml'
       c.p_s '开始备份数据库'
-      mysql = c.load Rails.env
+      mysql = c.load args[:env]
 
       name = "#{path}/#{mysql[:database]}-#{Time.now.strftime '%Y%m%d%H%M%S.sql.gz'}"
       c.p_s "备份到数据库[#{name}]"
