@@ -9,7 +9,7 @@ module Brahma
       send({type: :echo, message: message})
     end
 
-    def email(subject, content)
+    def email(to, subject, content)
       send({type: :email, to: to, subject: subject, content: content, create: Time.now, timeout: 60*60*24})
     end
 
