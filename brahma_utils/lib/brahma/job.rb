@@ -6,21 +6,31 @@ module Brahma
     end
 
     def echo(message)
-      send mq, {type: :echo, message: message}
+      send({type: :echo, message: message})
     end
 
-    def email(to, subject, content)
-      send mq, {type: :email, to: to, subject: subject, content: content, create: Time.now, timeout: 60*60*24}
+    def email(subject, content)
+      send({type: :email, to: to, subject: subject, content: content, create: Time.now, timeout: 60*60*24})
     end
 
-    def send(queue, request={})
+    def send(request={})
       @redis.with do |conn|
         conn.lpush queue, Marshal.dump(request)
       end
     end
 
+
+    def receive(timeout)
+      @redis.with do |conn|
+        task = conn.brpop(queue, timeout)
+        unless task.nil?
+          yield Marshal.load(task[1])
+        end
+      end
+    end
+
     private
-    def mq
+    def queue
       "worker://#{@name}"
     end
   end
