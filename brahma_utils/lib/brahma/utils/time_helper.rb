@@ -4,7 +4,7 @@ module Brahma::Utils
     module_function
 
     def month_r(year, month)
-      [DateTime.new(year, month, 1),DateTime.new(year, month, -1, 24)]
+      [DateTime.new(year, month, 1), DateTime.new(year, month, -1, 24)]
     end
 
     def day_r(year, month, day)
@@ -13,6 +13,13 @@ module Brahma::Utils
 
     def next_day(clock)
       (Date.today+1).to_time+60*60*clock
+    end
+
+    def least_month(count)
+      dt = Date.today
+      months=[dt]
+      1.upto(count) { |i| months << (dt<<i) }
+      months
     end
 
     def max
