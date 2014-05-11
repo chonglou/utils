@@ -23,6 +23,7 @@ Gem::Specification.new do |spec|
 
 
   spec.add_dependency 'highline'
+  spec.add_dependency 'redcarpet'
   spec.add_dependency 'mysql2'
   spec.add_dependency 'sequel'
   spec.add_dependency 'redis'

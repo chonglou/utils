@@ -1,10 +1,12 @@
 require 'securerandom'
 require 'digest'
 require 'base64'
+require 'redcarpet'
 
 module Brahma::Utils
   module StringHelper
     CHARS=('a'..'z').to_a + ('0'..'9').to_a
+    MARKDOWN = Redcarpet::Markdown.new(Redcarpet::Render::HTML, autolink: true, space_after_headers: true)
     module_function
 
     def rand_s(len)
@@ -35,6 +37,10 @@ module Brahma::Utils
 
     def sha512(str)
       Digest::SHA512.hexdigest str
+    end
+
+    def md2html(markdown)
+      MARKDOWN.render markdown
     end
 
   end
