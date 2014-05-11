@@ -4,7 +4,7 @@ module Brahma::Utils
     module_function
 
     def month_r(year, month)
-      [DateTime.new(year, month, 1),DateTime.new(year, month, -1)]
+      [DateTime.new(year, month, 1),DateTime.new(year, month, -1, 24)]
     end
 
     def day_r(year, month, day)
