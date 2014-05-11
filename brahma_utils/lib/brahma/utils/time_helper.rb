@@ -9,8 +9,6 @@ module Brahma::Utils
 
     def day_r(year, month, day)
       [DateTime.new(year, month, day), DateTime.new(year, month, day, 24)]
-      start= DateTime.new(year, month, day)
-      [start, (start.to_time+100*60*60*24)]
     end
 
     def next_day(clock)
