@@ -1,6 +1,7 @@
 require 'securerandom'
 require 'digest'
 require 'base64'
+require 'nokogiri'
 require 'redcarpet'
 
 module Brahma::Utils
@@ -41,6 +42,10 @@ module Brahma::Utils
 
     def md2html(markdown)
       MARKDOWN.render markdown
+    end
+
+    def html2text(html)
+      Nokogiri::HTML(html).text
     end
 
   end

@@ -15,13 +15,6 @@ module Brahma::Utils
       (Date.today+1).to_time+60*60*clock
     end
 
-    def least_month(count)
-      dt = Date.today
-      months=[dt]
-      1.upto(count) { |i| months << (dt<<i) }
-      months
-    end
-
     def max
       Time.gm(9999, 12, 31, 23, 59, 59)
     end
