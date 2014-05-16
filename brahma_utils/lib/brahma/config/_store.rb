@@ -36,9 +36,10 @@ module Brahma
     end
 
     module_function
+
     def tasks(name, tasks)
       spec = Gem::Specification.find_by_name name
-      tasks.each {|t|yield "#{spec.gem_dir}/tasks/#{t}.rake"}
+      tasks.each { |t| yield "#{spec.gem_dir}/tasks/#{t}.rake" }
     end
   end
 end

@@ -2,19 +2,20 @@ require 'sequel'
 require_relative 'logger'
 
 module Brahma::Utils
+
+  #adapter::mysql2 username password host port socket database
+  #adapter::sqlite3 path
   module Database
     LOGGER=Logger.instance.create 'database'
 
     module_function
 
-    def connect(adapter: :mysql2, host: 'localhost', port: 3306, database: 'brahma', username: 'root', password: nil, pool: 10, ** options)
-      case adapter
+    def connect(options)
+      case options.fetch(:adapter)
         when :mysql2
           require 'mysql2'
-          Sequel.connect(:adapter => 'mysql2',
-                         :host => host, :database => database, :port => port,
-                         :user => username, :password => password,
-                         :max_connections => pool, :logger => LOGGER)
+          options[:user] = options.delete :username
+          Sequel.connect(options)
         when :sqlite3
           require 'sqlite3'
           Sequel.connect "sqlite://#{options.fetch :path}"
@@ -23,11 +24,12 @@ module Brahma::Utils
       end
     end
 
-    def create(adapter: :mysql2, host: 'localhost', port: 3306, database: 'brahma', username: 'root', password: nil, ** options)
-      case adapter
+    def create(options)
+      case options.fetch(:adapter)
         when :mysql2
           require 'mysql2'
-          conn = Mysql2::Client.new(:host => host, :username => username, :password => password, :port => port)
+          database = options.delete :database
+          conn = Mysql2::Client.new options
           sql = "CREATE DATABASE IF NOT EXISTS #{database} DEFAULT CHARACTER SET 'utf8'"
           LOGGER.debug sql
           conn.query sql

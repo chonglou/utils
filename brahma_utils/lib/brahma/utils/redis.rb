@@ -5,9 +5,11 @@ module Brahma::Utils
   module Redis
     module_function
 
-    def pool(host: 'localhost', port: 6379, db: 0, pool: 4, ** options)
-      ConnectionPool::Wrapper.new(size: pool, timeout: 3) {
-        ::Redis.new host: host, port: port, db: db
+    #host port db pool path
+    def pool(options)
+      ConnectionPool::Wrapper.new(size: options.fetch(:pool), timeout: 3) {
+        options.delete :pool
+        ::Redis.new options
       }
     end
   end
