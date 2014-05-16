@@ -7,6 +7,7 @@ module Brahma::Config
       if ENVIRONMENTS.include?(env)
         cfg = read.fetch(env)
         rv = {
+            adapter: cfg.fetch('adapter').to_sym,
             database: cfg.fetch('database'),
             username: cfg.fetch('username'),
             password: cfg.fetch('password'),
