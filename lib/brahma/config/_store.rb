@@ -1,3 +1,4 @@
+require 'yaml'
 require 'highline/import'
 
 module Brahma
