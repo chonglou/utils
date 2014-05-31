@@ -4,7 +4,7 @@ require_relative '../utils/string_helper'
 
 module Brahma::Config
   class Jobber < Storage
-    TYPES = %w(redis rabbitmq)
+    TYPES = %w(redis rabbit)
 
     def load(env)
       if ENVIRONMENTS.include?(env)
