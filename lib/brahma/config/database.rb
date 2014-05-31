@@ -2,7 +2,7 @@ require_relative '_store'
 require_relative '../utils/database'
 
 module Brahma::Config
-  class Mysql < Storage
+  class Database < Storage
     def load(env)
       if ENVIRONMENTS.include?(env)
         cfg = read.fetch(env)

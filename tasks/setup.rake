@@ -1,17 +1,17 @@
 namespace :brahma do
   namespace :setup do
-    desc 'MYSQL配置[路径]'
-    task :mysql, [:path] do |_, args|
+    desc 'DATABASE配置[路径]'
+    task :database, [:path] do |_, args|
       args.with_defaults(path: 'config/database.yml')
-      require 'brahma/config/mysql'
-      Brahma::Config::Mysql.new(args[:path]).setup!
+      require 'brahma/config/database'
+      Brahma::Config::Database.new(args[:path]).setup!
     end
 
-    desc 'REDIS配置'
-    task :redis, [:path] do |_, args|
-      args.with_defaults(path: 'config/redis.yml')
-      require 'brahma/config/redis'
-      Brahma::Config::Redis.new(args[:path]).setup!
+    desc 'JOBBER配置'
+    task :jobber, [:path] do |_, args|
+      args.with_defaults(path: 'config/jobber.yml')
+      require 'brahma/config/jobber'
+      Brahma::Config::Jobber.new(args[:path]).setup!
     end
 
     desc 'KEY生成'
