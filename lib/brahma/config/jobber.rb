@@ -24,7 +24,7 @@ module Brahma::Config
 
     def setup!
       p_s '配置任务系统'
-      type = ask('类型？(redis/rabbitmq)')
+      type = ask('类型？(redis/rabbitmq)').to_s
       if TYPES.include?(type)
         cfg = send "ask_#{type}"
         cfg['timeout'] = ask('超时？(秒)', Integer) do |q|
