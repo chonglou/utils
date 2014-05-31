@@ -7,35 +7,30 @@ module Brahma
       def initialize(name, timeout, options)
         @conn = Bunny.new "amqp://#{options.fetch(:host)}:#{options.fetch(:port)}"
         @conn.start
-        @conn.qos
-        @name = name
         @timeout = timeout
+
+        ch = @conn.channel
+        ch.prefetch 1
+        @queue =ch.queue name
       end
 
       def send(request)
-        ch, q = queue @name
-        x = ch.default_exchange
-        x.publish request, routing_key: q.name
+        @queue.publish request
       end
 
       def receive
-        q = queue(@name)[1]
-        q.subscribe(ack: true, timeout: @timeout) do |_, _, payload|
+        _, _, payload = @queue.pop
+        if payload
           yield payload
+        else
+          sleep @timeout
         end
-        q.ack
       end
 
       def close
         @conn.stop
       end
 
-      private
-      def queue(name)
-        ch = conn.channel
-        q = ch.queue name
-        [ch, q]
-      end
 
     end
 
