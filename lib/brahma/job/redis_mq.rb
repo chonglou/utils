@@ -3,7 +3,7 @@ require 'redis'
 module Brahma
   module Job
 
-    class RedisSender
+    class RedisMQ
       #path='/var/run/redis/redis.sock', host='localhost', port=6379, db=0
       def initialize(name, timeout, options)
         @redis =Redis.new options

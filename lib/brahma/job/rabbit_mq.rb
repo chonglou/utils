@@ -2,7 +2,7 @@ require 'bunny'
 
 module Brahma
   module Job
-    class RabbitJobSender
+    class RabbitMQ
       #host='localhost', port='5672'
       def initialize(name, timeout, options)
         @conn = Bunny.new "amqp://#{options.fetch(:host)}:#{options.fetch(:port)}"

@@ -24,8 +24,8 @@ module Brahma
       name = cfg.delete :name
       timeout = cfg.delete :timeout
       require 'brahma/job/request'
-      require "brahma/job/#{type}_sender"
-      @jobber = Brahma::Job.const_get("#{type.capitalize}Sender").new name, timeout, cfg
+      require "brahma/job/#{type}_mq"
+      @jobber = Brahma::Job.const_get("#{type.capitalize}MQ").new name, timeout, cfg
     end
 
     def load_encryptor
