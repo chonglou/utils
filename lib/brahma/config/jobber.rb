@@ -66,7 +66,7 @@ module Brahma::Config
       redis
     end
 
-    def ask_rabbitmq
+    def ask_rabbit
       p_s '配置RabbitMQ'
       mq = {}
       mq['host']=ask('主机： ') { |q| q.default='localhost' }.to_s
@@ -91,7 +91,7 @@ module Brahma::Config
       rv
     end
 
-    def read_rabbitmq(cfg)
+    def read_rabbit(cfg)
       {
           host: cfg.fetch('host'),
           port: cfg.fetch('port'),
