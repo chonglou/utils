@@ -11,8 +11,8 @@ module Brahma
       @env = env
     end
 
-    def load_mysql
-      require 'brahma/config/mysql'
+    def load_database
+      require 'brahma/config/database'
       require 'brahma/utils/database'
       @mysql = Brahma::Utils::Database.connect load_cfg('database')
     end
@@ -21,8 +21,11 @@ module Brahma
       require 'brahma/config/jobber'
       cfg = load_cfg('jobber')
       type = cfg.delete :type
+      name = cfg.delete :name
+      timeout = cfg.delete :timeout
+      require 'brahma/job/request'
       require "brahma/job/#{type}_sender"
-      @jobber = Brahma::Job.const_get("#{type.capitalize}Sender").new cfg
+      @jobber = Brahma::Job.const_get("#{type.capitalize}Sender").new name, timeout, cfg
     end
 
     def load_encryptor

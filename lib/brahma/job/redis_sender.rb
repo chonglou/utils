@@ -5,24 +5,22 @@ module Brahma
 
     class RedisSender
       #path='/var/run/redis/redis.sock', host='localhost', port=6379, db=0
-      def initialize(options)
-        @redis = Redis.new options
+      def initialize(name, timeout, options)
+        @redis =Redis.new options
         @redis.ping
+        @name = name
+        @timeout = timeout
       end
 
-      def send(name, request)
-        @redis.with do |conn|
-          conn.lpush queue(name), Marshal.dump(request)
-        end
+      def send(request)
+        @redis.lpush queue(@name), Marshal.dump(request)
       end
 
 
-      def receive(timeout)
-        @redis.with do |conn|
-          task = conn.brpop(queue(name), timeout)
-          unless task.nil?
-            yield Marshal.load(task[1])
-          end
+      def receive
+        task = @redis.brpop(queue(@name), @timeout)
+        unless task.nil?
+          yield Marshal.load(task[1])
         end
       end
 

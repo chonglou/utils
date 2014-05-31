@@ -11,7 +11,11 @@ module Brahma::Config
         cfg = read.fetch(env)
         type = cfg.fetch('type')
         if TYPES.include?(type)
-          send "read_#{type}", cfg
+          rv = send "read_#{type}", cfg
+          rv[:name]= cfg.fetch('name')
+          rv[:timeout]= cfg.fetch('timeout')
+          rv[:type]= cfg.fetch('type')
+          rv
         else
           fail '不支持的类型'
         end
@@ -27,6 +31,7 @@ module Brahma::Config
           q.default=5
           q.in = 2..300
         end
+        cfg['type'] = type
 
         data = {}
         ENVIRONMENTS.each do |env|
@@ -75,9 +80,7 @@ module Brahma::Config
 
     def read_redis(cfg)
       rv = {
-          db: cfg.fetch('db'),
-          name: cfg.fetch('name'),
-          timeout: cfg.fetch('timeout')
+          db: cfg.fetch('db')
       }
       if cfg.has_key?('path')
         rv[:path] = cfg.fetch 'path'
@@ -91,9 +94,7 @@ module Brahma::Config
     def read_rabbitmq(cfg)
       {
           host: cfg.fetch('host'),
-          pool: cfg.fetch('port'),
-          name: cfg.fetch('name'),
-          timeout: cfg.fetch('timeout')
+          port: cfg.fetch('port'),
       }
     end
   end
