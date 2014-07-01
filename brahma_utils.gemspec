@@ -29,5 +29,6 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'sequel'
   spec.add_dependency 'redis'
   spec.add_dependency 'bunny'
+  spec.add_dependency 'iconv'
   spec.add_dependency 'connection_pool'
 end
